@@ -40,12 +40,15 @@ class XearchApp (App):
                             default=os.environ.get('XEARCH_DOCUMENTS',
                                                    '.'))
         parser.add_argument('--database', '--db', '-D',
-                            default=os.environ.get('XEARCH_DATABASE',
-                                                   '.xearch'))
+                            default=os.environ.get('XEARCH_DATABASE'))
 
         return parser
 
     def setup_database(self, writable=False):
+        if not self.options.database:
+            self.options.database = os.path.join(self.options.documents,
+                                                 '.xearch')
+
         dbpath = os.path.join(self.options.source, self.options.database)
         dbpath = os.path.normpath(dbpath)
 
