@@ -41,7 +41,8 @@ class Index(Command):
                     line.strip() for line in fd
                     if len(line) > 1 and not line.startswith('#'))
 
-        for dirpath, dirnames, filenames in os.walk(self.app.options.source):
+        for dirpath, dirnames, filenames in os.walk(
+                self.app.options.documents):
             dirnames[:] = [
                 name for name in dirnames if not any(
                     fnmatch.fnmatch(name, pattern)
@@ -61,7 +62,7 @@ class Index(Command):
         self.app.database.close()
 
     def add_document(self, filepath):
-        self.log.info('adding %s to index', filepath)
+        self.log.debug('adding %s to index', filepath)
         filestat = os.stat(filepath)
         with open(filepath) as fd:
             data = fd.read()
@@ -78,8 +79,8 @@ class Index(Command):
 
             indexer = self.indexer
             indexer.set_document(doc)
-            filepath_words=' '.join(filepath.split(os.sep))
-            indexer.index_text(filepath_words, 1, 'S')
+            filepath_words = ' '.join(filepath.split(os.sep))
+            indexer.index_text(filepath_words, 1, 'P')
             indexer.index_text(filepath_words)
             indexer.increase_termpos()
             indexer.index_text(data)

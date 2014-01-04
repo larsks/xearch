@@ -22,7 +22,7 @@ class Search(Command):
         qp.add_valuerangeprocessor(
             xapian.DateValueRangeProcessor(1, 'date:', True, False, 1900)
         )
-        qp.add_prefix('path', 'S')
+        qp.add_prefix('path', 'P')
 
         self.queryparser = qp
 

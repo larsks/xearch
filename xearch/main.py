@@ -36,7 +36,7 @@ class XearchApp (App):
         parser = super(XearchApp, self).build_option_parser(*args,
                                                             **kwargs)
 
-        parser.add_argument('--source', '-S',
+        parser.add_argument('--documents', '-S',
                             default=os.environ.get('XEARCH_DOCUMENTS',
                                                    '.'))
         parser.add_argument('--database', '--db', '-D',
@@ -49,7 +49,7 @@ class XearchApp (App):
             self.options.database = os.path.join(self.options.documents,
                                                  '.xearch')
 
-        dbpath = os.path.join(self.options.source, self.options.database)
+        dbpath = os.path.join(self.options.documents, self.options.database)
         dbpath = os.path.normpath(dbpath)
 
         if writable:
@@ -66,7 +66,6 @@ def parse_args():
     return p.parse_args()
 
 def main(argv=sys.argv[1:]):
-    logging.basicConfig(level=logging.DEBUG)
     myapp = XearchApp()
     return myapp.run(argv)
 
